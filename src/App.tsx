@@ -1,6 +1,14 @@
 import styled from '@emotion/styled'
-import { KeyboardEvent, useEffect, useRef, useState } from 'react'
-import { io } from 'socket.io-client'
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { useSocket } from './context/socket-context'
+import { useDebounce } from './utils'
+
+const MessageContainer = styled.div`
+  height: 300px;
+  overflow-y: scroll;
+  margin: 0 50px;
+  border: 1px solid #f6f6f6;
+`
 
 const MessageWrapper = styled.div`
   padding: 10px 10px;
@@ -17,12 +25,13 @@ const Message = styled.div`
 `
 
 const TypeMessageContainer = styled.div`
-  margin-top: 105px;
+  width: 350px;
+  margin: 105px auto 0;
   padding: 0 20px;
 `
 
 const TypeMessageInput = styled.input`
-  width: 350px;
+  width: 100%;
   height: 30px;
   margin-top: 10px;
 `
@@ -37,20 +46,20 @@ function App() {
   const [messages, setMessage] = useState<Message[]>([])
   const authorRef = useRef<HTMLInputElement>(null)
   const contentRef = useRef<HTMLInputElement>(null)
-
-  const socket = io('http://localhost:3100', {
-    withCredentials: true,
-    transports: ['websocket', 'polling'],
-    // autoConnect: false,
-  })
+  const socket = useSocket()
 
   useEffect(() => {
-    socket.on('chat message', (arg: { author: string; content: string }) => {
+    socket.on('chat message', (arg: Message) => {
       setMessage([...messages, { author: arg.author, content: arg.content }])
+      const msgEnd = document.getElementById('msg_end')
+      if (msgEnd)
+        setTimeout(() => {
+          msgEnd.scrollIntoView(false)
+        }, 100)
     })
-  }, [socket])
+  }, [messages])
 
-  const handleInputMessage = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleEnterEvent = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const content = (e.target as HTMLInputElement).value
       contentRef.current!.value = ''
@@ -69,14 +78,17 @@ function App() {
   return (
     <div>
       <h1>React Chat App</h1>
-      {messages?.map((item, index) => {
-        return (
-          <MessageWrapper key={index}>
-            <MessageAuthor>{item.author}</MessageAuthor>
-            <Message>{item.content}</Message>
-          </MessageWrapper>
-        )
-      })}
+      <MessageContainer>
+        {messages?.map((item, index) => {
+          return (
+            <MessageWrapper key={index}>
+              <MessageAuthor>{item.author}</MessageAuthor>
+              <Message>{item.content}</Message>
+            </MessageWrapper>
+          )
+        })}
+        <span id="msg_end" style={{ overflow: 'hidden' }}></span>
+      </MessageContainer>
       {!author ? (
         <TypeMessageContainer>
           <div>Hi, what is your name?</div>
@@ -85,7 +97,7 @@ function App() {
       ) : (
         <TypeMessageContainer>
           <div>Hello {author}, type a message</div>
-          <TypeMessageInput type="text" onKeyDown={handleInputMessage} ref={contentRef} />
+          <TypeMessageInput type="text" onKeyDown={handleEnterEvent} ref={contentRef} />
         </TypeMessageContainer>
       )}
     </div>
