@@ -92,12 +92,12 @@ function App() {
       {!author ? (
         <TypeMessageContainer>
           <div>Hi, what is your name?</div>
-          <TypeMessageInput type="text" ref={authorRef} onKeyDown={handleAuthorInputMessage} />
+          <TypeMessageInput type="text" ref={authorRef} onKeyUp={handleAuthorInputMessage} />
         </TypeMessageContainer>
       ) : (
         <TypeMessageContainer>
           <div>Hello {author}, type a message</div>
-          <TypeMessageInput type="text" onKeyDown={handleEnterEvent} ref={contentRef} />
+          <TypeMessageInput type="text" onKeyUp={handleEnterEvent} ref={contentRef} />
         </TypeMessageContainer>
       )}
     </div>

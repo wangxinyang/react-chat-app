@@ -2,18 +2,15 @@
 
 ![react-real-time-chat](https://user-images.githubusercontent.com/11283532/174981419-97fc8a81-9183-43c4-9a3d-6517d9cbd99b.gif)
 
+#### これは簡単なリアルタイムのチャット App になります。もちろん、React で構築しました。
 
-#### これは簡単なリアルタイムのチャットAppになります。もちろん、Reactで構築しました。
+##### 1. React for UI
 
-#####      1. React for UI
+##### 2. SocketIO for リアルタイムチャット
 
-#####      2. SocketIO for リアルタイムチャット
+##### 3. React Hook for データ処理
 
-#####      3. React Hook for データ処理
-
-#####      4. TypeScript for 型検査
-
-
+##### 4. TypeScript for 型検査
 
 ### Install
 
@@ -23,11 +20,18 @@ cd react-chat-app
 yarn または npm install
 ```
 
-
-
 #### Run in development
 
+##### client
+
 ```
+yarn dev
+```
+
+##### server
+
+```
+cd server
 yarn dev
 ```
 
