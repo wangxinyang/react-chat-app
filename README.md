@@ -1,16 +1,17 @@
 ## The React Real Time Chat App
 
+![react-real-time-chat](https://user-images.githubusercontent.com/11283532/174981419-97fc8a81-9183-43c4-9a3d-6517d9cbd99b.gif)
 
 
 #### これは簡単なリアルタイムのチャットAppになります。もちろん、Reactで構築しました。
 
-#####      1. <font color=#008000>React</font> for UI
+#####      1. React for UI
 
-#####      2. <font color=#008000>SocketIO</font> for リアルタイムチャット
+#####      2. SocketIO for リアルタイムチャット
 
-#####      3. <font color=#008000>React Hook</font> for データ処理
+#####      3. React Hook for データ処理
 
-     #####      4. <font color=#008000>TypeScript</font> for 型検査
+#####      4. TypeScript for 型検査
 
 
 
